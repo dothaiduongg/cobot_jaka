@@ -262,7 +262,8 @@ namespace WPF_robot_sim
                 BtnConnect.IsEnabled = !c && !isBusy;
                 BtnDisconnect.IsEnabled = c && !isBusy;
                 btnAutoHome.IsEnabled = c && !isBusy;
-                BtnMove.IsEnabled = c && !isBusy;   
+                BtnMove.IsEnabled = c && !isBusy;
+                
 
                 slJ1.IsEnabled = c && !isBusy;
                 slJ2.IsEnabled = c && !isBusy;
