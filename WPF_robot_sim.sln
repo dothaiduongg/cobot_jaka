@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_robot_sim", "WPF_robot_sim\WPF_robot_sim.csproj", "{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common", "D:\Data\SVN auto\download\20250603165637A073\jakaAPI_V2.1.7stable\SDK2.1.7\example\c#\common\common.csproj", "{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Debug|Any CPU.Build.0 = Debug|x64
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Debug|x64.ActiveCfg = Debug|x64
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Debug|x64.Build.0 = Debug|x64
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Release|x64.ActiveCfg = Release|x64
+		{A06EDFAA-8B14-4639-ABF6-85801CA8D9A7}.Release|x64.Build.0 = Release|x64
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Debug|Any CPU.ActiveCfg = Release|x64
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Debug|Any CPU.Build.0 = Release|x64
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Debug|x64.ActiveCfg = Debug|x64
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Debug|x64.Build.0 = Debug|x64
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Release|x64.ActiveCfg = Release|x64
+		{6EA74AF5-4E60-63B8-79D8-3DCBB9871740}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F92F51E-9F79-4764-B124-E755170931C9}
+	EndGlobalSection
+EndGlobal
