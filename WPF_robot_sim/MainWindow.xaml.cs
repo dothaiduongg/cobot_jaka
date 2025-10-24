@@ -27,10 +27,6 @@ namespace WPF_robot_sim
         private const double MMF_KV = 0.4;           // vel factor
         private const double MMF_KA = 0.2;           // pos factor
 
-
-        private const double ZoomMin = 0.5;
-        private const double ZoomMax = 2.0;
-        private const double ZoomStep = 0.1;
         // =================== State ===================
         private int handle = 0;
         private bool isConnected = false;
@@ -371,32 +367,6 @@ namespace WPF_robot_sim
 
             UpdateUiState(connected: isConnected);
         }
-        private void ApplyZoom(double z)
-        {
-            z = Math.Max(ZoomMin, Math.Min(ZoomMax, z));
-            if (RootScale != null)
-            {
-                RootScale.ScaleX = z;
-                RootScale.ScaleY = z;
-            }
-            if (ZoomSlider != null && Math.Abs(ZoomSlider.Value - z) > 0.0001)
-                ZoomSlider.Value = z;
-        }
 
-        // Ctrl + Wheel để zoom; nếu không giữ Ctrl thì cuộn bình thường
-        private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-            {
-                double delta = e.Delta > 0 ? ZoomStep : -ZoomStep;
-                ApplyZoom((ZoomSlider?.Value ?? 1.0) + delta);
-                e.Handled = true; // chặn scroll mặc định khi đang zoom
-            }
-        }
-
-        private void tbJ2_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
