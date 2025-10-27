@@ -147,7 +147,7 @@
 
 
                             <TextBlock x:Name="TxtStatus" Grid.Column="2" VerticalAlignment="Center" Foreground="DarkSlateGray"
-                                       Text="Status: Disconnected" Height="16" Margin="16,0,23,0"/>
+                                       Text="Status: Disconnected" Height="16" Margin="10,0,23,0"/>
                         </Grid>
                     </GroupBox>
                     <Grid Grid.Row="2" Margin="10,95,28,10">

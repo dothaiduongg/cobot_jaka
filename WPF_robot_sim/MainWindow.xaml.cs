@@ -1,17 +1,17 @@
-﻿using System;
+﻿using jakaApi;
+using jkType;
+using System;
+using System.Net;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Controls.Primitives;   // DragCompletedEventArgs
+using System.Windows.Input;
 using System.Windows.Media;                // VisualTreeHelper
-using System.Net;
-using System.Text.RegularExpressions;
-
-using jakaApi;
-using jkType;
+using System.Windows.Media.Media3D;
 
 namespace WPF_robot_sim
 {
@@ -45,9 +45,11 @@ namespace WPF_robot_sim
         // ====== IP input helpers ======
         private static readonly Regex _ipAllowed = new Regex(@"^[0-9\.]+$"); // only digits and dot
 
+
         public MainWindow()
         {
             InitializeComponent();
+           
             UpdateUiState(false);
             Log("Application started.");
         }
@@ -86,6 +88,19 @@ namespace WPF_robot_sim
             if (ret != 0) { FailConnect($"servo_move_use_joint_MMF failed (ret={ret})"); return; }
 
             // Enable SERVO mode
+            await Task.Run(() => jakaAPI.servo_move_enable(ref handle, false));
+
+            // thử MMF trước
+            ret = await Task.Run(() => jakaAPI.servo_move_use_joint_MMF(ref handle, MMF_MAX_BUF, MMF_KP, MMF_KV, MMF_KA));
+            if (ret != 0)
+            {
+                Log($"MMF not available (ret={ret}). Try LPF...");
+                // Fallback: LPF (chọn cutoff nhẹ, ví dụ 10)
+                // Nếu wrapper của bạn có API này, dùng; nếu không, bỏ qua filter.
+                // ví dụ:
+                // ret = await Task.Run(() => jakaAPI.servo_move_use_joint_LPF(ref handle, 10));
+                // if (ret != 0) Log($"LPF also failed (ret={ret}). Continue without joint filter.");
+            }
             ret = await Task.Run(() => jakaAPI.servo_move_enable(ref handle, true));
             if (ret != 0) { FailConnect($"servo_move_enable(true) failed (ret={ret})"); return; }
 
@@ -280,6 +295,7 @@ namespace WPF_robot_sim
             BtnRefresh.IsEnabled = !isBusy;
         }
 
+
         private void Log(string message)
         {
             var ts = DateTime.Now.ToString("HH:mm:ss");
@@ -463,7 +479,8 @@ namespace WPF_robot_sim
             if (e.Key == Key.Enter)
                 await CommitCartesianServoBurstAsync(JKTYPE.MoveMode.ABS);
         }
-
+        // ====== gọi trong constructor sau InitializeComponent() ======
+        
 
     }
 }
