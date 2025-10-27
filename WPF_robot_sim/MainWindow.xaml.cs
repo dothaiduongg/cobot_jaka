@@ -33,6 +33,15 @@ namespace WPF_robot_sim
 
         private CancellationTokenSource _servoCts;   // hủy vòng lặp bơm servo khi có thao tác mới
 
+
+        // ==== Cartesian config (TCP) ====
+        private const bool CART_POS_IN_METERS = true;  // SDK thường x,y,z là mét
+        private const bool CART_ANG_IN_RADIANS = true;  // SDK thường rx,ry,rz là rad
+        private const int CART_SERVO_BURST_MS = 240;   // thời gian bơm servo_p, giống khớp
+
+        private double MmToMeters(double mm) => mm / 1000.0;
+        private double DegToRad(double deg) => deg * Math.PI / 180.0;
+
         // ====== IP input helpers ======
         private static readonly Regex _ipAllowed = new Regex(@"^[0-9\.]+$"); // only digits and dot
 
@@ -367,6 +376,94 @@ namespace WPF_robot_sim
 
             UpdateUiState(connected: isConnected);
         }
+
+        private void tbZ_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        private async Task CommitCartesianServoBurstAsync(JKTYPE.MoveMode mode = JKTYPE.MoveMode.ABS)
+        {
+            if (!isConnected) { Log("Cannot send Cartesian command: Robot not connected."); return; }
+            if (!BuildCartesianTarget(out var pose)) return;
+
+            // Huỷ burst cũ nếu có (tận dụng _servoCts đang dùng)
+            _servoCts?.Cancel();
+            _servoCts = new CancellationTokenSource();
+            var ct = _servoCts.Token;
+
+            Log($"Sending servo_p burst ({mode}) ...");
+            UpdateUiState(isBusy: true);
+
+            try
+            {
+                int loops = Math.Max(1, CART_SERVO_BURST_MS / SERVO_LOOP_PERIOD_MS);
+                for (int i = 0; i < loops; i++)
+                {
+                    ct.ThrowIfCancellationRequested();
+
+                    // Một số bản SDK cần step_num, khi đó dùng overload có tham số cuối là 1.
+                    // int ret = jakaAPI.servo_p(ref handle, ref pose, mode, 1);
+                    int ret = jakaAPI.servo_p(ref handle, ref pose, mode);
+                    if (ret != 0)
+                    {
+                        Log($"servo_p failed (ret={ret}).");
+                        break;
+                    }
+
+                    await Task.Delay(SERVO_LOOP_PERIOD_MS, ct);
+                }
+
+                Log("Cartesian movement completed (servo burst).");
+            }
+            catch (TaskCanceledException)
+            {
+                // bị thao tác mới thay thế – không báo lỗi
+            }
+            finally
+            {
+                UpdateUiState(connected: isConnected);
+            }
+        }
+
+        private bool BuildCartesianTarget(out JKTYPE.CartesianPose pose)
+        {
+            pose = new JKTYPE.CartesianPose
+            {
+                tran = new JKTYPE.CartesianTran(),  // x, y, z
+                rpy = new JKTYPE.Rpy()     // rx, ry, rz
+            };
+
+            // Lấy từ sliders (UI đang ở mm & deg cho dễ dùng)
+            double x_mm = slX.Value, y_mm = slY.Value, z_mm = slZ.Value;
+            double rx_d = slRX.Value, ry_d = slRY.Value, rz_d = slRZ.Value;
+
+            // (Tuỳ chọn) clamp theo workspace thực tế của robot để an toàn
+            // ví dụ:
+            // x_mm = Math.Max(-800, Math.Min(800, x_mm));
+            // ...
+
+            // Đổi đơn vị đúng theo flag cấu hình
+            pose.tran.x = CART_POS_IN_METERS ? MmToMeters(x_mm) : x_mm;
+            pose.tran.y = CART_POS_IN_METERS ? MmToMeters(y_mm) : y_mm;
+            pose.tran.z = CART_POS_IN_METERS ? MmToMeters(z_mm) : z_mm;
+
+            pose.rpy.rx = CART_ANG_IN_RADIANS ? DegToRad(rx_d) : rx_d;
+            pose.rpy.ry = CART_ANG_IN_RADIANS ? DegToRad(ry_d) : ry_d;
+            pose.rpy.rz = CART_ANG_IN_RADIANS ? DegToRad(rz_d) : rz_d;
+
+            return true;
+        }
+        private async void CartesianSlider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            await CommitCartesianServoBurstAsync(JKTYPE.MoveMode.ABS);
+        }
+
+        private async void CartesianSlider_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                await CommitCartesianServoBurstAsync(JKTYPE.MoveMode.ABS);
+        }
+
 
     }
 }
