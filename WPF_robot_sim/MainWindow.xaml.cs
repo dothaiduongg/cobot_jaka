@@ -171,7 +171,7 @@ namespace WPF_robot_sim
             await Task.Run(() => jakaAPI.servo_move_enable(ref handle, true));
 
             // Đồng bộ UI
-            slJ1.Value = slJ2.Value = slJ3.Value = slJ4.Value = slJ5.Value = slJ6.Value = 0;
+            //slJ1.Value = slJ2.Value = slJ3.Value = slJ4.Value = slJ5.Value = slJ6.Value = 0;
             UpdateUiState(connected: isConnected);
         }
 
@@ -243,26 +243,26 @@ namespace WPF_robot_sim
         }
 
         // ========== Helpers ==========
-        private bool BuildJointTarget(out JKTYPE.JointValue j)
-        {
-            j = new JKTYPE.JointValue { jVal = new double[6] };
+        //private bool BuildJointTarget(out JKTYPE.JointValue j)
+        //{
+        //    j = new JKTYPE.JointValue { jVal = new double[6] };
 
-            double[] deg = new double[]
-            {
-                slJ1.Value, slJ2.Value, slJ3.Value, slJ4.Value, slJ5.Value, slJ6.Value
-            };
+        //    double[] deg = new double[]
+        //    {
+        //        slJ1.Value, slJ2.Value, slJ3.Value, slJ4.Value, slJ5.Value, slJ6.Value
+        //    };
 
-            double[] min = { -360, -50, -155, -85, -360, -360 };
-            double[] max = { 360, 230, 155, 265, 360, 360 };
+        //    double[] min = { -360, -50, -155, -85, -360, -360 };
+        //    double[] max = { 360, 230, 155, 265, 360, 360 };
 
-            for (int i = 0; i < 6; i++)
-            {
-                if (deg[i] < min[i]) deg[i] = min[i];
-                if (deg[i] > max[i]) deg[i] = max[i];
-                j.jVal[i] = SEND_IN_RADIANS ? Deg2Rad(deg[i]) : deg[i];
-            }
-            return true;
-        }
+        //    for (int i = 0; i < 6; i++)
+        //    {
+        //        if (deg[i] < min[i]) deg[i] = min[i];
+        //        if (deg[i] > max[i]) deg[i] = max[i];
+        //        j.jVal[i] = SEND_IN_RADIANS ? Deg2Rad(deg[i]) : deg[i];
+        //    }
+        //    return true;
+        //}
 
         private double Deg2Rad(double deg) => deg * Math.PI / 180.0;
 
