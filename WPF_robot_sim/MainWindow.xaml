@@ -15,7 +15,7 @@
                       VerticalScrollBarVisibility="Auto"
                       CanContentScroll="False"
                       Background="{x:Null}">
-            <Border Padding="0" Height="auto" Width="900">
+            <Border  Height="auto" Width="900">
                 <Border.LayoutTransform>
                     <ScaleTransform x:Name="RootScale" ScaleX="1.0" ScaleY="1.0"/>
                 </Border.LayoutTransform>
@@ -402,18 +402,18 @@
                     </Grid>
 
                     <!-- LOG CONSOLE -->
-                    <Grid Grid.Row="3" Margin="4,321,2,0" Height="184" VerticalAlignment="Top" Grid.Column="0">
+                    <Grid Grid.Row="3" Margin="4,321,2,0" Height="198" VerticalAlignment="Top" Grid.Column="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <GroupBox Header="Log Console" Margin="10,0,5,0" Height="172" VerticalAlignment="Center">
-                            <DockPanel Height="127" Margin="5">
+                            <DockPanel Height="142" Margin="5,0,5,0">
                                 <TextBox x:Name="LogBox"
                                          IsReadOnly="True"
                                          TextWrapping="Wrap"
                                          VerticalScrollBarVisibility="Auto"
                                          AcceptsReturn="True"
-                                         FontFamily="Consolas" Width="295" Height="100" Margin="5"/>
+                                         FontFamily="Consolas" Width="295" Height="128" Margin="5"/>
                             </DockPanel>
                         </GroupBox>
 
