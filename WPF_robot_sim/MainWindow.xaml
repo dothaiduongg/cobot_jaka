@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WPF_robot_sim.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="JAKA Robot control" Height="750" Width="926" Background="White"
+        Title="JAKA Robot control" Height="750" Width="1000" Background="White"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Display"
@@ -16,7 +16,7 @@
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       CanContentScroll="False"
-                      Background="{x:Null}" Margin="-10,0,10,0">
+                      Background="{x:Null}" Margin="10,0,9,0">
 
             <!-- ====== TOÀN BỘ UI GỐC CỦA BẠN BÊN DƯỚI ====== -->
             <Grid x:Name="AppRoot" Margin="5,5,5,5">
@@ -227,32 +227,32 @@
                             <TextBlock Grid.Column="0" Text="J1" VerticalAlignment="Center" Margin="4,0,3,0" Height="16" HorizontalAlignment="Center"/>
 
                             <TextBox x:Name="tbJ1" Grid.Row="0" Grid.Column="1" Margin="5,1,3,2"
-                                        Text="{Binding ElementName=slJ1, Path=Value, StringFormat={}{0:#.#}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
                             <!-- J2 -->
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="J2" VerticalAlignment="Center" Margin="4,0,3,0" Height="16" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbJ2" Grid.Row="1" Grid.Column="1" Margin="5,1,3,2"
-                                        Text="{Binding ElementName=slJ2, Path=Value, StringFormat={}{0:#.#}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
                             <!-- J3 -->
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="J3" VerticalAlignment="Center" Margin="4,0,3,0" Height="16" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbJ3" Grid.Row="2" Grid.Column="1" Margin="5,1,3,2"
-                                        Text="{Binding ElementName=slJ3, Path=Value, StringFormat={}{0:#.#}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
                             <!-- J4 -->
                             <TextBlock Grid.Row="0" Grid.Column="2" Text="J4" VerticalAlignment="Center" Margin="4,0,3,0" Height="16" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbJ4" Grid.Row="0" Grid.Column="3" Margin="5,1,3,2"
-                                        Text="{Binding ElementName=slJ4, Path=Value, StringFormat={}{0:#.#}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                         VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
                             <!-- J5 -->
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="J5" VerticalAlignment="Center" Margin="4,0,3,0" Height="16" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbJ5" Grid.Row="1" Grid.Column="3" Margin="5,1,3,2"
-                                        Text="{Binding ElementName=slJ5, Path=Value, StringFormat={}{0:#.#}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                         VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
 
                             <!-- J6 -->
                             <TextBlock Grid.Row="2" Grid.Column="2" Text="J6" VerticalAlignment="Center" Margin="4,0,3,0" Height="16" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbJ6" Grid.Row="2" Grid.Column="3" Margin="5,1,3,2"
-                                        Text="{Binding ElementName=slJ6, Path=Value, StringFormat={}{0:#.#}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                         VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
 
                             <Button Content="Move" Margin="30,0,10,0"  Click="btnjointMove_Click" Grid.Column="4" Grid.Row="1"/>
@@ -326,36 +326,36 @@
                             <!-- X -->
                             <TextBlock Grid.Row="1" Text="X" VerticalAlignment="Center" Height="16" Grid.Column="0" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbX" Grid.Row="1" Grid.Column="1"
-                                    Text="{Binding ElementName=slX, Path=Value, StringFormat={}{0:#.#}}" Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                    Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                             <!-- Y -->
                             <TextBlock Grid.Row="2" Text="Y" VerticalAlignment="Center" Height="16" Grid.Column="0" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbY" Grid.Row="2" Grid.Column="1"
-                                    Text="{Binding ElementName=slY, Path=Value, StringFormat={}{0:#.#}}" Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                    Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                             <!-- Z -->
                             <TextBlock Grid.Row="3" Text="Z" VerticalAlignment="Center" Height="16" Grid.Column="0" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbZ" Grid.Row="3" Grid.Column="1"
-                                    Text="{Binding ElementName=slZ, Path=Value, StringFormat={}{0:#.#}}" Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                    Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                             <!-- RX -->
                             <TextBlock Grid.Row="1" Text="RX" VerticalAlignment="Center" Height="16"  Grid.Column="2" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbRX" Grid.Row="1" Grid.Column="3"
-                                    Text="{Binding ElementName=slRX, Path=Value, StringFormat={}{0:#.#}}" Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                    Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                             <!-- RY -->
                             <TextBlock Grid.Row="2"  Text="RY" VerticalAlignment="Center" Height="16" Grid.Column="2" HorizontalAlignment="Center"/>
                             <TextBox x:Name="tbRY" Grid.Row="2" Grid.Column="3"
-                                    Text="{Binding ElementName=slRY, Path=Value, StringFormat={}{0:#.#}}" Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                    Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                             <!-- RZ -->
                             <TextBlock Grid.Row="3" Text="RZ" VerticalAlignment="Center" Height="16" Grid.Column="2" HorizontalAlignment="Center" />
                             <TextBox x:Name="tbRZ" Grid.Row="3" Grid.Column="3"
-                                    Text="{Binding ElementName=slRZ, Path=Value, StringFormat={}{0:#.#}}" Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                    Margin="5,1,3,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                             <Button Content="Move" Margin="30,0,10,0" Click="btnCartesianMove_Click" Grid.Column="4" Grid.Row="2"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Record Points" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="5,0,0,0" HorizontalAlignment="Left" Width="559">
+                    <GroupBox Header="Record Points" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="5,0,0,0" HorizontalAlignment="Left" Width="624">
                         <Grid Margin="5">
                             <Grid.Resources>
                                 <Style TargetType="Button">
@@ -465,13 +465,13 @@
 
                             <!-- Row 3 -->
                             <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                <Button Content="↑" Width="40" Margin="0,0,6,0" Click="btnUp_Click"/>
-                                <Button Content="↓" Width="40" Margin="0,0,15,0" Click="btnDown_Click"/>
-                                <Button Content="Delete" Margin="0,0,10,0" Click="btnRemove_Click"/>
+                                <Button x:Name="btn_Up_click" Content="↑" Width="40" Margin="0,0,6,0" Click="btnUp_Click"/>
+                                <Button x:Name="btn_Down_click" Content="↓" Width="40" Margin="0,0,15,0" Click="btnDown_Click"/>
+                                <Button x:Name="btn_delete" Content="Delete" Margin="0,0,10,0" Click="btnRemove_Click"/>
                                 <Button x:Name="btnRun" Content="Run Loop" Margin="0,0,10,0" Click="btnRun_Click"/>
                                 <Button x:Name="btnStopRun" Content="Stop" Margin="0,0,20,0" Click="btnStopRun_Click" IsEnabled="False"/>
-                                <Button Content="Save Config…" Margin="0,0,10,0" Click="btnSaveConfig_Click"/>
-                                <Button Content="Load Config…" Click="btnLoadConfig_Click"/>
+                                <Button x:Name="btn_save" Content="Save Config…" Margin="0,0,10,0" Click="btnSaveConfig_Click"/>
+                                <Button x:Name="btn_load" Content="Load Config…" Click="btnLoadConfig_Click"/>
                             </StackPanel>
                         </Grid>
                     </GroupBox>

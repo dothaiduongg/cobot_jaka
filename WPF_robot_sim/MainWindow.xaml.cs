@@ -1,22 +1,23 @@
 ﻿using jakaApi;
 using jkType;
+using Microsoft.Win32;
 using System;
+// sequence + file
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Net;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-
-// sequence + file
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Text.Json;
-using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace WPF_robot_sim
 {
@@ -84,6 +85,16 @@ namespace WPF_robot_sim
         #region === Connection Box ===
 
         // ========== CONNECTION ==========
+
+        private async void btnCartesianMove_Click(object sender, RoutedEventArgs e)
+        {
+            //await ConnectToRobotAsync();
+        }
+        private void btnjointMove_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
         private async void BtnConnect_Click(object sender, RoutedEventArgs e)
         {
             string ipRaw = TxtIp.Text?.Trim();
@@ -110,14 +121,14 @@ namespace WPF_robot_sim
             if (ret != 0) { FailConnect($"enable_robot failed (ret={ret})"); return; }
 
             // configure filter BEFORE enabling servo mode
-            ret = await Task.Run(() => jakaAPI.servo_move_use_joint_MMF(ref handle, MMF_MAX_BUF, MMF_KP, MMF_KV, MMF_KA));
-            if (ret != 0) { FailConnect($"servo_move_use_joint_MMF failed (ret={ret})"); return; }
+            //ret = await Task.Run(() => jakaAPI.servo_move_use_joint_MMF(ref handle, MMF_MAX_BUF, MMF_KP, MMF_KV, MMF_KA));
+            //if (ret != 0) { FailConnect($"servo_move_use_joint_MMF failed (ret={ret})"); return; }
 
             await Task.Run(() => jakaAPI.servo_move_enable(ref handle, false));
 
             // optional re-apply
-            ret = await Task.Run(() => jakaAPI.servo_move_use_joint_MMF(ref handle, MMF_MAX_BUF, MMF_KP, MMF_KV, MMF_KA));
-            if (ret != 0) Log($"MMF not available (ret={ret}).");
+            //ret = await Task.Run(() => jakaAPI.servo_move_use_joint_MMF(ref handle, MMF_MAX_BUF, MMF_KP, MMF_KV, MMF_KA));
+            //if (ret != 0) Log($"MMF not available (ret={ret}).");
 
             ret = await Task.Run(() => jakaAPI.servo_move_enable(ref handle, true));
             if (ret != 0) { FailConnect($"servo_move_enable(true) failed (ret={ret})"); return; }
@@ -199,7 +210,7 @@ namespace WPF_robot_sim
         }
 
 
-       // ========== JOINT SERVO BURST (optional) ==========
+        // ========== JOINT SERVO BURST (optional) ==========
         private async Task CommitServoBurstAsync()
         {
             if (!isConnected)
@@ -268,7 +279,10 @@ namespace WPF_robot_sim
         #endregion
 
 
-
+        //Severity Count   Data Context    Binding Path
+        //Target Target Type Description File Line    Project Error	1	null	
+        //Value TextBox.Text, Name= 'tbJ1'
+        //String Cannot find source: ElementName= slJ1.C:\	229	WPF_robot_sim
 
         // hook LostFocus to clamp J1..J6
         private void WireJointBoxClampEvents()
@@ -558,7 +572,7 @@ namespace WPF_robot_sim
             };
             Points.Add(p);
         }
-        
+
         private void btnUpdateFromCurrent_Click(object sender, RoutedEventArgs e)
         {
             if (dgPoints.SelectedItem is not JointPoint sel) { Log("Select a point to update."); return; }
@@ -741,6 +755,15 @@ namespace WPF_robot_sim
                 dgPoints.IsEnabled = c && !isBusy;
 
                 TxtIp.IsEnabled = !c && !isBusy;
+
+
+
+                btn_Down_click.IsEnabled = c && !isBusy;
+                btn_Up_click.IsEnabled = c && !isBusy;
+                //btn_delete.IsEnabled = c && !isBusy;
+                btnRun.IsEnabled = c && !isBusy;
+                btn_save.IsEnabled = c && !isBusy;
+                btn_load.IsEnabled = c && !isBusy;
             }
             BtnRefresh.IsEnabled = !isBusy;
         }
