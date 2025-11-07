@@ -153,16 +153,16 @@ namespace WPF_robot_sim
             isConnected = true;
             TxtStatus.Text = $"Status: Connected ({normalized})";
 
-            // <<< NEW: reset Joint & Cartesian boxes to 0.00 >>>
+            // <<< NEW: reset Joint & Cartesian boxes to 0.0 >>>
             ResetAllInputBoxesToZero();
 
-            Log("Connected. Inputs reset to 0.00.");
+            Log("Connected. Inputs reset to 0.0.");
             UpdateUiState(connected: true);
         }
 
         private void ResetAllInputBoxesToZero()
         {
-            string z2 = 0.0.ToString("F2", CI);
+            string z2 = 0.0.ToString("F1", CI);
             tbJ1.Text = tbJ2.Text = tbJ3.Text = tbJ4.Text = tbJ5.Text = tbJ6.Text = z2;
             tbX.Text = tbY.Text = tbZ.Text = z2;
             tbRX.Text = tbRY.Text = tbRZ.Text = z2;
