@@ -80,36 +80,8 @@ namespace WPF_robot_sim
             Log("Application started.");
         }
 
-        // hook LostFocus to clamp J1..J6
-        private void WireJointBoxClampEvents()
-        {
-            tbJ1.LostFocus += JointBox_LostFocus;
-            tbJ2.LostFocus += JointBox_LostFocus;
-            tbJ3.LostFocus += JointBox_LostFocus;
-            tbJ4.LostFocus += JointBox_LostFocus;
-            tbJ5.LostFocus += JointBox_LostFocus;
-            tbJ6.LostFocus += JointBox_LostFocus;
-        }
 
-        private void JointBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (sender is not TextBox tb) return;
-            int idx = tb.Name switch
-            {
-                "tbJ1" => 0,
-                "tbJ2" => 1,
-                "tbJ3" => 2,
-                "tbJ4" => 3,
-                "tbJ5" => 4,
-                "tbJ6" => 5,
-                _ => -1
-            };
-            if (idx < 0) return;
-
-            if (!ParseBox(tb, out double v)) v = 0.0;
-            v = Math.Max(JOINT_MIN[idx], Math.Min(JOINT_MAX[idx], v));
-            tb.Text = v.ToString("F2", CI);
-        }
+        #region === Connection Box ===
 
         // ========== CONNECTION ==========
         private async void BtnConnect_Click(object sender, RoutedEventArgs e)
@@ -160,13 +132,7 @@ namespace WPF_robot_sim
             UpdateUiState(connected: true);
         }
 
-        private void ResetAllInputBoxesToZero()
-        {
-            string z2 = 0.0.ToString("F1", CI);
-            tbJ1.Text = tbJ2.Text = tbJ3.Text = tbJ4.Text = tbJ5.Text = tbJ6.Text = z2;
-            tbX.Text = tbY.Text = tbZ.Text = z2;
-            tbRX.Text = tbRY.Text = tbRZ.Text = z2;
-        }
+
 
         private void FailConnect(string detail)
         {
@@ -228,15 +194,12 @@ namespace WPF_robot_sim
 
             // <<< NEW: after homing, reflect zeros to Joint Position >>>
             ResetJointBoxesToZero();
+            ResetCartesianBoxesToZero();
+            Log("Joint & Cartesian boxes reset to 0.0 after Auto Home.");
         }
 
-        private void ResetJointBoxesToZero()
-        {
-            string z2 = 0.0.ToString("F2", CI);
-            tbJ1.Text = tbJ2.Text = tbJ3.Text = tbJ4.Text = tbJ5.Text = tbJ6.Text = z2;
-        }
 
-        // ========== JOINT SERVO BURST (optional) ==========
+       // ========== JOINT SERVO BURST (optional) ==========
         private async Task CommitServoBurstAsync()
         {
             if (!isConnected)
@@ -301,6 +264,59 @@ namespace WPF_robot_sim
 
             await Task.Run(() => jakaAPI.servo_move_enable(ref handle, true));
             UpdateUiState(connected: isConnected);
+        }
+        #endregion
+
+
+
+
+        // hook LostFocus to clamp J1..J6
+        private void WireJointBoxClampEvents()
+        {
+            tbJ1.LostFocus += JointBox_LostFocus;
+            tbJ2.LostFocus += JointBox_LostFocus;
+            tbJ3.LostFocus += JointBox_LostFocus;
+            tbJ4.LostFocus += JointBox_LostFocus;
+            tbJ5.LostFocus += JointBox_LostFocus;
+            tbJ6.LostFocus += JointBox_LostFocus;
+        }
+
+        private void JointBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is not TextBox tb) return;
+            int idx = tb.Name switch
+            {
+                "tbJ1" => 0,
+                "tbJ2" => 1,
+                "tbJ3" => 2,
+                "tbJ4" => 3,
+                "tbJ5" => 4,
+                "tbJ6" => 5,
+                _ => -1
+            };
+            if (idx < 0) return;
+
+            if (!ParseBox(tb, out double v)) v = 0.0;
+            v = Math.Max(JOINT_MIN[idx], Math.Min(JOINT_MAX[idx], v));
+            tb.Text = v.ToString("F2", CI);
+        }
+        private void ResetAllInputBoxesToZero()
+        {
+            string z2 = 0.0.ToString("F1", CI);
+            tbJ1.Text = tbJ2.Text = tbJ3.Text = tbJ4.Text = tbJ5.Text = tbJ6.Text = z2;
+            tbX.Text = tbY.Text = tbZ.Text = z2;
+            tbRX.Text = tbRY.Text = tbRZ.Text = z2;
+        }
+        private void ResetJointBoxesToZero()
+        {
+            string z2 = 0.0.ToString("F1", CI);
+            tbJ1.Text = tbJ2.Text = tbJ3.Text = tbJ4.Text = tbJ5.Text = tbJ6.Text = z2;
+        }
+        private void ResetCartesianBoxesToZero()
+        {
+            string z2 = 0.0.ToString("F1", CI);
+            tbX.Text = tbY.Text = tbZ.Text = z2;
+            tbRX.Text = tbRY.Text = tbRZ.Text = z2;
         }
 
         // ========== CARTESIAN SERVO BURST ==========
@@ -481,16 +497,6 @@ namespace WPF_robot_sim
             UpdateUiState(connected: false);
         }
 
-        // ========== Cartesian slider handlers (kept if referenced in XAML) ==========
-        private async void CartesianSlider_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            await CommitCartesianServoBurstAsync(JKTYPE.MoveMode.ABS);
-        }
-        private async void CartesianSlider_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                await CommitCartesianServoBurstAsync(JKTYPE.MoveMode.ABS);
-        }
         private void tbZ_TextChanged(object sender, TextChangedEventArgs e) { }
 
         // ========== Sequence helpers ==========
@@ -552,7 +558,7 @@ namespace WPF_robot_sim
             };
             Points.Add(p);
         }
-
+        
         private void btnUpdateFromCurrent_Click(object sender, RoutedEventArgs e)
         {
             if (dgPoints.SelectedItem is not JointPoint sel) { Log("Select a point to update."); return; }
@@ -713,7 +719,7 @@ namespace WPF_robot_sim
                 }
             }
         }
-
+        #region === UI ===
         // ========== UI & LOG ==========
         private void UpdateUiState(bool? connected = null, bool isBusy = false)
         {
@@ -739,11 +745,15 @@ namespace WPF_robot_sim
             BtnRefresh.IsEnabled = !isBusy;
         }
 
+        #endregion
+
+        #region === Log console ===
         private void Log(string message)
         {
             var ts = DateTime.Now.ToString("HH:mm:ss");
             LogBox.AppendText($"[{ts}] {message}{Environment.NewLine}");
             LogBox.ScrollToEnd();
         }
+        #endregion
     }
 }
